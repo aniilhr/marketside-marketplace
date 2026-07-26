@@ -2,6 +2,7 @@
 import os
 from datetime import timedelta
 from pathlib import Path
+from urllib.parse import parse_qs, unquote, urlparse
 
 from dotenv import load_dotenv
 
@@ -65,7 +66,26 @@ TEMPLATES = [
     }
 ]
 
-if env_bool("USE_SQLITE", "1"):
+# Hosts like Render, Neon, Railway, Fly and Heroku hand you a single connection
+# string. If DATABASE_URL is present it wins over everything below.
+DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
+
+if DATABASE_URL:
+    _url = urlparse(DATABASE_URL)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": _url.path.lstrip("/"),
+            "USER": unquote(_url.username or ""),
+            "PASSWORD": unquote(_url.password or ""),
+            "HOST": _url.hostname or "",
+            "PORT": str(_url.port or 5432),
+            "CONN_MAX_AGE": int(os.getenv("CONN_MAX_AGE", "600")),
+            # Carries through sslmode=require, channel_binding and friends.
+            "OPTIONS": {k: v[0] for k, v in parse_qs(_url.query).items()},
+        }
+    }
+elif env_bool("USE_SQLITE", "1"):
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
