@@ -9,8 +9,8 @@ import { useAppDispatch } from "../store";
 import { login, register as registerUser } from "../store/authSlice";
 
 /* Set to false before a public deployment to hide the demo account picker. */
-const SHOW_DEMO_ACCOUNTS = true;
-const DEMO_PASSWORD = "Password123!";
+const SHOW_DEMO_ACCOUNTS = false;
+const DEMO_PASSWORD = "";
 
 const ROLE_HOME: Record<string, string> = {
   customer: "/",
