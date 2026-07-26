@@ -3,15 +3,8 @@ import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 
 import { Layout, RequireAuth } from "./components";
-import {
-  CartPage,
-  Checkout,
-  Login,
-  OrderDetail,
-  Orders,
-  Profile,
-  Register,
-} from "./pages/Account";
+import { CartPage, Checkout, OrderDetail, Orders, Profile } from "./pages/Account";
+import { Login, Register } from "./pages/Auth";
 import {
   AdminDashboard,
   DeliveryDashboard,
