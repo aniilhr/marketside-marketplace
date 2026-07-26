@@ -1,0 +1,5 @@
+# Everything in requirements.txt plus the PostgreSQL driver.
+# Used by Docker, CI and production. Needs no compiler: psycopg2-binary
+# ships prebuilt wheels for CPython 3.8-3.12.
+-r requirements.txt
+psycopg2-binary==2.9.9
